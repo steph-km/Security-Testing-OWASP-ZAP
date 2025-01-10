@@ -8,6 +8,8 @@ public class OwaspZapAutomation {
     static Utils utils=new Utils();
 
     static CreateContext createContext=new CreateContext();
+    static PassiveScanning startPassiveScan=new PassiveScanning();
+    static Spidering spidering=new Spidering();
     static ActiveScanning activeScanning=new ActiveScanning();
     static Report report=new Report();
     static Alerts alerts=new Alerts();
@@ -20,13 +22,19 @@ public class OwaspZapAutomation {
             // 1. Add the target site to the context
             createContext.createContext(api, contextName);
 
-            // 2. Active Scan (includes SQL Injection, XSS, etc.)
+            // 2. Passive Scan
+            startPassiveScan.startPassiveScan(api);
+
+            // 3. Spider Scan
+            Spidering.startSpiderScan(api);
+
+            // 5. Active Scan (includes SQL Injection, XSS, etc.)
             activeScanning.startActiveScan(api);
 
-            // 3. Generate and save the report
+            // 6. Generate and save the report
             report.generateReport(api);
 
-            // 4. Display alerts in the console
+            // 7. Display alerts in the console
             alerts.displayAlerts(api);
         } catch (Exception e) {
             e.printStackTrace();
